@@ -1,0 +1,31 @@
+{
+  "name": "parcel-plugin-web-extension",
+  "version": "0.0.0",
+  "description": "Parcel plugin for WebExtension projects",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test mocha --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevincharm/parcel-plugin-web-extension.git"
+  },
+  "keywords": [
+    "parcel",
+    "plugin",
+    "web",
+    "extension",
+    "manifest"
+  ],
+  "author": "Kevin Tjiam <kevin@kevincharm.com> (https://github.com/kevincharm)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/kevincharm/parcel-plugin-web-extension/issues"
+  },
+  "homepage": "https://github.com/kevincharm/parcel-plugin-web-extension#readme",
+  "devDependencies": {
+    "cross-env": "^5.1.6",
+    "mocha": "^5.2.0",
+    "parcel": "^1.8.1"
+  }
+}

@@ -1,6 +1,6 @@
 const path = require('path')
-const Asset = require('parcel/src/Asset')
-const JSONAsset = require('parcel/src/assets/JSONAsset')
+const Asset = require('parcel-bundler/src/Asset')
+const JSONAsset = require('parcel-bundler/src/assets/JSONAsset')
 
 /**
  * A shared asset that handles:

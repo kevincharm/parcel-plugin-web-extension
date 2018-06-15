@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const assert = require('assert')
-const Bundler = require('parcel')
+const Bundler = require('parcel-bundler')
 const WebExtensionPlugin = require('../src/index')
 
 async function bundlerWithPlugin(file, opts) {

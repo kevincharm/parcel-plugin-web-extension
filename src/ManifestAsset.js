@@ -106,11 +106,9 @@ class ManifestAsset extends Asset {
             background.scripts = this.processMultipleDependencies(
                 background.scripts
             )
-            this.isAstDirty = true
         }
         if (background.page) {
             background.page = this.processSingleDependency(background.page)
-            this.isAstDirty = true
         }
     }
 
@@ -122,11 +120,9 @@ class ManifestAsset extends Asset {
         for (const script of contentScripts) {
             if (script.js) {
                 script.js = this.processMultipleDependencies(script.js)
-                this.isAstDirty = true
             }
             if (script.css) {
                 script.css = this.processMultipleDependencies(script.css)
-                this.isAstDirty = true
             }
         }
     }
@@ -151,7 +147,6 @@ class ManifestAsset extends Asset {
         this.ast.web_accessible_resources = this.processMultipleDependencies(
             resolvedPaths
         )
-        this.isAstDirty = true
     }
 
     processBrowserAction() {
@@ -164,7 +159,6 @@ class ManifestAsset extends Asset {
             action.default_popup = this.processSingleDependency(
                 action.default_popup
             )
-            this.isAstDirty = true
         }
         const defaultIcon = action.default_icon
         if (defaultIcon) {
@@ -187,7 +181,6 @@ class ManifestAsset extends Asset {
             action.default_popup = this.processSingleDependency(
                 action.default_popup
             )
-            this.isAstDirty = true
         }
         const defaultIcon = action.default_icon
         if (defaultIcon) {
@@ -235,6 +228,7 @@ class ManifestAsset extends Asset {
             const processor = this.dependencyProcessors[nodeName]
             if (processor) {
                 processor.call(this)
+                this.isAstDirty = true
             }
         }
     }

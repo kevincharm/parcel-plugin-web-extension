@@ -17,7 +17,7 @@ class ManifestAsset extends Asset {
             return new JSONAsset(...arguments)
         }
 
-        this.type = basename === 'manifest.json' ? 'json' : 'webmanifest'
+        this.type = '@@webext'
         this.isAstDirty = false
     }
 

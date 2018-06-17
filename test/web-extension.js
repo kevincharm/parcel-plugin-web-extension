@@ -8,7 +8,7 @@ describe('WebExtension', () => {
         const bundle = await bundler.bundle()
 
         await assertBundleTree(bundle, {
-            type: 'json',
+            type: '@@webext',
             assets: ['manifest.json'],
             childBundles: [
                 { name: 'background_script.js' },

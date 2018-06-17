@@ -26,6 +26,7 @@
   "devDependencies": {
     "cross-env": "^5.1.6",
     "mocha": "^5.2.0",
-    "parcel-bundler": "^1.9.0"
+    "parcel-bundler": "^1.9.0",
+    "zip-dir": "^1.0.2"
   }
 }

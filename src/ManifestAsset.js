@@ -22,6 +22,16 @@ class ManifestAsset extends Asset {
 
         this.type = this.kind === 'pwa-manifest' ? 'webmanifest' : 'json'
         this.isAstDirty = false
+        this.dependencyProcessors = {
+            background: this.processBackground,
+            content_scripts: this.processContentScripts,
+            web_accessible_resources: this.processWebAccessibleResources,
+            browser_action: this.processBrowserAction,
+            page_action: this.processPageAction,
+            icons: this.processIcons,
+            options_ui: this.processOptionsPage,
+            options_page: this.processOptionsPage
+        }
     }
 
     static determineKind(name) {
@@ -90,12 +100,8 @@ class ManifestAsset extends Asset {
         )
     }
 
-    processBackground(nodeName) {
-        if (nodeName !== 'background') {
-            return
-        }
-
-        const background = this.ast[nodeName]
+    processBackground() {
+        const background = this.ast.background
         if (Array.isArray(background.scripts)) {
             background.scripts = this.processMultipleDependencies(
                 background.scripts
@@ -108,12 +114,8 @@ class ManifestAsset extends Asset {
         }
     }
 
-    processContentScripts(nodeName) {
-        if (nodeName !== 'content_scripts') {
-            return
-        }
-
-        const contentScripts = this.ast[nodeName]
+    processContentScripts() {
+        const contentScripts = this.ast.content_scripts
         if (!Array.isArray(contentScripts)) {
             return
         }
@@ -129,12 +131,8 @@ class ManifestAsset extends Asset {
         }
     }
 
-    processWebAccessibleResources(nodeName) {
-        if (nodeName !== 'web_accessible_resources') {
-            return
-        }
-
-        const webAccessibleResources = this.ast[nodeName]
+    processWebAccessibleResources() {
+        const webAccessibleResources = this.ast.web_accessible_resources
         if (!Array.isArray(webAccessibleResources)) {
             return
         }
@@ -150,16 +148,18 @@ class ManifestAsset extends Asset {
             })
             .reduce((p, c) => p.concat(c), [])
 
-        this.ast[nodeName] = this.processMultipleDependencies(resolvedPaths)
+        this.ast.web_accessible_resources = this.processMultipleDependencies(
+            resolvedPaths
+        )
         this.isAstDirty = true
     }
 
-    processBrowserOrPageAction(nodeName) {
-        if (!['browser_action', 'page_action'].includes(nodeName)) {
+    processBrowserAction() {
+        const action = this.ast.browser_action
+        if (!action) {
             return
         }
 
-        const action = this.ast[nodeName]
         if (action.default_popup) {
             action.default_popup = this.processSingleDependency(
                 action.default_popup
@@ -171,23 +171,48 @@ class ManifestAsset extends Asset {
             action.default_icon =
                 typeof defaultIcon === 'string'
                     ? this.processSingleDependency(defaultIcon)
-                    : this.processAllIcons(action.default_icon)
+                    : this.processAllIcons(defaultIcon)
 
             this.isAstDirty = true
         }
     }
 
-    processOptionsPage(nodeName) {
-        if (!['options_ui', 'options_page'].includes(nodeName)) {
+    processPageAction() {
+        const action = this.ast.page_action
+        if (!action) {
             return
         }
 
-        const options = this.ast[nodeName]
-        if (options.page) {
-            options.page = this.processSingleDependency(options.page)
+        if (action.default_popup) {
+            action.default_popup = this.processSingleDependency(
+                action.default_popup
+            )
             this.isAstDirty = true
-        } else if (options) {
-            this.ast[nodeName] = this.processSingleDependency(options)
+        }
+        const defaultIcon = action.default_icon
+        if (defaultIcon) {
+            action.default_icon =
+                typeof defaultIcon === 'string'
+                    ? this.processSingleDependency(defaultIcon)
+                    : this.processAllIcons(defaultIcon)
+
+            this.isAstDirty = true
+        }
+    }
+
+    processOptionsPage() {
+        // FF
+        const optionsUi = this.ast.options_ui
+        if (optionsUi && optionsUi.page) {
+            optionsUi.page = this.processSingleDependency(optionsUi.page)
+            this.isAstDirty = true
+            return
+        }
+
+        // Chrome
+        const optionsPage = this.ast.options_page
+        if (typeof optionsPage === 'string') {
+            this.ast.options_page = this.processSingleDependency(options)
             this.isAstDirty = true
         }
     }
@@ -198,13 +223,8 @@ class ManifestAsset extends Asset {
         }
     }
 
-    processIcons(nodeName) {
-        if (nodeName !== 'icons') {
-            return
-        }
-
-        const icons = this.ast[nodeName]
-
+    processIcons() {
+        const icons = this.ast.icons
         this.processAllIcons(icons)
 
         this.isAstDirty = true
@@ -212,12 +232,10 @@ class ManifestAsset extends Asset {
 
     collectDependenciesForWebExtension() {
         for (const nodeName of Object.keys(this.ast)) {
-            this.processBackground(nodeName)
-            this.processContentScripts(nodeName)
-            this.processWebAccessibleResources(nodeName)
-            this.processBrowserOrPageAction(nodeName)
-            this.processOptionsPage(nodeName)
-            this.processIcons(nodeName)
+            const processor = this.dependencyProcessors[nodeName]
+            if (processor) {
+                processor.call(this)
+            }
         }
     }
 

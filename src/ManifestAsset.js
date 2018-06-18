@@ -169,11 +169,20 @@ class ManifestAsset extends Asset {
     }
 
     generate() {
-        if (this.isAstDirty) {
-            return JSON.stringify(this.ast)
+        let contents = this.contents
+        if (!this.hasWebExtensionManifestKeys()) {
+            return {
+                json: contents
+            }
         }
 
-        return this.contents
+        if (this.isAstDirty) {
+            contents = JSON.stringify(this.ast)
+        }
+
+        return {
+            '@@webext': contents
+        }
     }
 }
 

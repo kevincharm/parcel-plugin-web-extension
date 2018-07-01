@@ -30,6 +30,9 @@
         "default_title": "Example Web Extension",
         "default_popup": "popup.html"
     },
+    "options_ui": {
+        "page": "options.html"
+    },
     "web_accessible_resources": [
         "inject.js"
     ]

@@ -117,10 +117,10 @@ class ManifestAsset extends Asset {
 
         const options = this.ast[nodeName]
         if (options.page) {
-            this.processSingleDependency(options.page)
+            options.page = this.processSingleDependency(options.page)
             this.isAstDirty = true
         } else if (options) {
-            this.processSingleDependency(options)
+            this.ast[nodeName] = this.processSingleDependency(options)
             this.isAstDirty = true
         }
     }

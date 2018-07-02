@@ -16,6 +16,7 @@ describe('WebExtension', () => {
                 { name: 'content_script.js' },
                 { name: 'favicon.ico' },
                 { name: 'inject.js' },
+                { name: 'options.html' },
                 { name: 'popup.html' }
             ]
         })

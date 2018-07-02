@@ -110,6 +110,21 @@ class ManifestAsset extends Asset {
         }
     }
 
+    processOptionsPage(nodeName) {
+        if(!['options_ui', 'options_page'].includes(nodeName)) {
+            return
+        }
+
+        const options = this.ast[nodeName]
+        if (options.page) {
+            options.page = this.processSingleDependency(options.page)
+            this.isAstDirty = true
+        } else if (options) {
+            this.ast[nodeName] = this.processSingleDependency(options)
+            this.isAstDirty = true
+        }
+    }
+
     processIcons(nodeName) {
         if (nodeName !== 'icons') {
             return
@@ -128,6 +143,7 @@ class ManifestAsset extends Asset {
             this.processContentScripts(nodeName)
             this.processWebAccessibleResources(nodeName)
             this.processBrowserOrPageAction(nodeName)
+            this.processOptionsPage(nodeName)
             this.processIcons(nodeName)
         }
     }

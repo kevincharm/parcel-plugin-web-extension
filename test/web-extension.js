@@ -7,7 +7,9 @@ describe('WebExtension', () => {
         )
         const bundle = await bundler.bundle()
 
-        await assertBundleTree(bundle, {
+        const childBundles = Array.from(bundle.childBundles.values())
+        const mainBundle = childBundles[0]
+        await assertBundleTree(mainBundle, {
             type: 'json',
             assets: ['manifest.json'],
             childBundles: [
@@ -19,6 +21,12 @@ describe('WebExtension', () => {
                 { name: 'options.html' },
                 { name: 'popup.html' }
             ]
+        })
+
+        const enLocaleBundle = childBundles[1]
+        await assertBundleTree(enLocaleBundle, {
+            type: 'json',
+            assets: ['messages.json']
         })
     })
 })

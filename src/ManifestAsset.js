@@ -7,18 +7,37 @@ const JSONAsset = require('parcel-bundler/src/assets/JSONAsset')
  * - PWA .webmanifest
  * - PWA manifest.json
  * - WebExtension manifest.json
+ * - WebExtension _locales/<locale>/messages.json
  */
 class ManifestAsset extends Asset {
     constructor(name, pkg, options) {
         super(name, pkg, options)
 
-        const basename = path.basename(name)
-        if (basename !== 'manifest.json') {
+        this.kind = ManifestAsset.determineKind(name)
+        if (!this.kind) {
             return new JSONAsset(...arguments)
         }
 
-        this.type = basename === 'manifest.json' ? 'json' : 'webmanifest'
+        this.type = this.kind === 'pwa-manifest' ? 'webmanifest' : 'json'
         this.isAstDirty = false
+    }
+
+    static determineKind(name) {
+        const basename = path.basename(name)
+
+        if (basename.endsWith('.webmanifest')) {
+            return 'pwa-manifest'
+        }
+
+        if (basename === 'manifest.json') {
+            return 'webext-manifest'
+        }
+
+        if (name.match(/_locales\/.+\/messages\.json/)) {
+            return 'locale-messages'
+        }
+
+        return null
     }
 
     parse(code) {
@@ -111,7 +130,7 @@ class ManifestAsset extends Asset {
     }
 
     processOptionsPage(nodeName) {
-        if(!['options_ui', 'options_page'].includes(nodeName)) {
+        if (!['options_ui', 'options_page'].includes(nodeName)) {
             return
         }
 
@@ -177,10 +196,15 @@ class ManifestAsset extends Asset {
     }
 
     collectDependencies() {
-        if (this.hasWebExtensionManifestKeys()) {
-            this.collectDependenciesForWebExtension()
-        } else {
+        if (['pwa-manifest', 'webext-manifest'].includes(this.kind)) {
+            if (this.hasWebExtensionManifestKeys()) {
+                this.collectDependenciesForWebExtension()
+                return
+            }
+
+            this.type = 'webmanifest'
             this.collectDependenciesForPwa()
+            return
         }
     }
 

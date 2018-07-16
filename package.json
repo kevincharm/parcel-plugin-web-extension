@@ -25,8 +25,10 @@
   "homepage": "https://github.com/kevincharm/parcel-plugin-web-extension#readme",
   "devDependencies": {
     "cross-env": "^5.1.6",
-    "fast-glob": "^2.2.2",
     "mocha": "^5.2.0",
     "parcel-bundler": "^1.9.0"
+  },
+  "dependencies": {
+    "fast-glob": "^2.2.2"
   }
 }

@@ -1,0 +1,12 @@
+{
+    "externally_connectable": {
+        "ids": [
+            "aaa",
+            "bbb"
+        ],
+        "matches": [
+            "https://*.google.com/*",
+            "*://*.chromium.org/*"
+        ]
+    }
+}

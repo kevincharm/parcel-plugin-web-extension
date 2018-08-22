@@ -166,8 +166,12 @@ class ManifestAsset extends Asset {
             )
             this.isAstDirty = true
         }
-        if (action.default_icon) {
-            action.default_icon = this.processAllIcons(action.default_icon)
+        const defaultIcon = action.default_icon
+        if (defaultIcon) {
+            action.default_icon =
+                typeof defaultIcon === 'string'
+                    ? this.processSingleDependency(defaultIcon)
+                    : this.processAllIcons(action.default_icon)
 
             this.isAstDirty = true
         }

@@ -15,6 +15,8 @@ yarn add -D parcel-plugin-web-extension
 
 ## Usage
 
+### Quick Start
+
 After installing this plugin, use `manifest.json` as your entry point, like so:
 ```sh
 parcel src/manifest.json
@@ -31,6 +33,14 @@ Assets resolved by this plugin:
 - `page_action.default_icon`
 - `icons`
 - `web_accessible_resources`
+
+### Environments
+
+This plugin will try to resolve and merge environment-specific manifest files in the format `manifest.${NODE_ENV}.json`. For example, in development, you can run:
+```sh
+NODE_ENV=development parcel src/manifest.json
+```
+and the plugin will also look for `manifest.development.json` and merge those keys into the base manifest.
 
 ## Licence
 

@@ -105,18 +105,16 @@ class ManifestAsset extends Asset {
             return
         }
 
-        const resolvedPaths = []
-        for (const resource of webAccessibleResources) {
-            if (!resource.match(/\*/)) {
-                resolvedPaths.push(resource)
-            }
-
-            const dir = path.dirname(this.name)
-            const resources = glob
-                .sync(path.resolve(dir, resource))
-                .map(res => path.relative(dir, res))
-            resolvedPaths.push(...resources)
-        }
+        // Handle wildcards and glob-patterns
+        const resolvedPaths = webAccessibleResources
+            .map(resource => {
+                const dir = path.dirname(this.name)
+                const globbedPaths = glob
+                    .sync(path.resolve(dir, resource))
+                    .map(res => path.relative(dir, res))
+                return globbedPaths
+            })
+            .reduce((p, c) => p.concat(c), [])
 
         this.ast[nodeName] = this.processMultipleDependencies(resolvedPaths)
         this.isAstDirty = true

@@ -11,6 +11,7 @@ describe('Wildcard paths', () => {
             type: 'json',
             assets: ['manifest.json'],
             childBundles: [
+                { name: 'no-wildcard.js' },
                 { name: 'one-deep.js' },
                 { name: 'two-deep.js' },
                 { name: 'zero-deep-1.js' },

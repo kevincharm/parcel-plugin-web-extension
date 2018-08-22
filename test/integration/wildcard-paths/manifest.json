@@ -1,0 +1,10 @@
+{
+    "manifest_version": 2,
+    "name": "parcel-web-extension-test",
+    "version": "1.0.0",
+    "web_accessible_resources": [
+        "no-wildcard/no-wildcard.js",
+        "nested/**/*.js",
+        "*.js"
+    ]
+}

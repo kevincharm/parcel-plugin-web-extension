@@ -1,4 +1,5 @@
 const path = require('path')
+const glob = require('fast-glob')
 const Asset = require('parcel-bundler/src/Asset')
 const JSONAsset = require('parcel-bundler/src/assets/JSONAsset')
 
@@ -103,9 +104,19 @@ class ManifestAsset extends Asset {
         if (!Array.isArray(webAccessibleResources)) {
             return
         }
-        this.ast[nodeName] = this.processMultipleDependencies(
-            webAccessibleResources
-        )
+
+        // Handle wildcards and glob-patterns
+        const resolvedPaths = webAccessibleResources
+            .map(resource => {
+                const dir = path.dirname(this.name)
+                const globbedPaths = glob
+                    .sync(path.resolve(dir, resource))
+                    .map(res => path.relative(dir, res))
+                return globbedPaths
+            })
+            .reduce((p, c) => p.concat(c), [])
+
+        this.ast[nodeName] = this.processMultipleDependencies(resolvedPaths)
         this.isAstDirty = true
     }
 

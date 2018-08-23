@@ -29,7 +29,7 @@ class ManifestAsset extends Asset {
             browser_action: this.processBrowserAction,
             page_action: this.processPageAction,
             icons: this.processIcons,
-            options_ui: this.processOptionsPage,
+            options_ui: this.processOptionsUi,
             options_page: this.processOptionsPage
         }
     }
@@ -190,17 +190,18 @@ class ManifestAsset extends Asset {
     }
 
     processOptionsPage() {
-        // FF
-        const optionsUi = this.ast.options_ui
-        if (optionsUi && optionsUi.page) {
-            optionsUi.page = this.processSingleDependency(optionsUi.page)
-            return
-        }
-
         // Chrome
         const optionsPage = this.ast.options_page
         if (typeof optionsPage === 'string') {
             this.ast.options_page = this.processSingleDependency(options)
+        }
+    }
+
+    processOptionsUi() {
+        // FF
+        const optionsUi = this.ast.options_ui
+        if (optionsUi && optionsUi.page) {
+            optionsUi.page = this.processSingleDependency(optionsUi.page)
         }
     }
 

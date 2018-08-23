@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kevincharm/parcel-plugin-web-extension.svg?branch=master)](https://travis-ci.org/kevincharm/parcel-plugin-web-extension)
+
 # parcel-plugin-web-extension
 
 This [parcel](https://github.com/parcel-bundler/parcel) plugin enables you to use a WebExtension `manifest.json` as an entry point. For more information about `manifest.json`, please refer to the [MDN docs](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json).

@@ -166,8 +166,6 @@ class ManifestAsset extends Asset {
                 typeof defaultIcon === 'string'
                     ? this.processSingleDependency(defaultIcon)
                     : this.processAllIcons(defaultIcon)
-
-            this.isAstDirty = true
         }
     }
 
@@ -188,8 +186,6 @@ class ManifestAsset extends Asset {
                 typeof defaultIcon === 'string'
                     ? this.processSingleDependency(defaultIcon)
                     : this.processAllIcons(defaultIcon)
-
-            this.isAstDirty = true
         }
     }
 
@@ -198,7 +194,6 @@ class ManifestAsset extends Asset {
         const optionsUi = this.ast.options_ui
         if (optionsUi && optionsUi.page) {
             optionsUi.page = this.processSingleDependency(optionsUi.page)
-            this.isAstDirty = true
             return
         }
 
@@ -206,7 +201,6 @@ class ManifestAsset extends Asset {
         const optionsPage = this.ast.options_page
         if (typeof optionsPage === 'string') {
             this.ast.options_page = this.processSingleDependency(options)
-            this.isAstDirty = true
         }
     }
 
@@ -219,8 +213,6 @@ class ManifestAsset extends Asset {
     processIcons() {
         const icons = this.ast.icons
         this.processAllIcons(icons)
-
-        this.isAstDirty = true
     }
 
     collectDependenciesForWebExtension() {

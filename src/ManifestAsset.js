@@ -166,10 +166,13 @@ class ManifestAsset extends Asset {
             )
             this.isAstDirty = true
         }
-        if (action.default_icon) {
-            action.default_icon = this.processSingleDependency(
-                action.default_icon
-            )
+        const defaultIcon = action.default_icon
+        if (defaultIcon) {
+            action.default_icon =
+                typeof defaultIcon === 'string'
+                    ? this.processSingleDependency(defaultIcon)
+                    : this.processAllIcons(action.default_icon)
+
             this.isAstDirty = true
         }
     }
@@ -189,16 +192,22 @@ class ManifestAsset extends Asset {
         }
     }
 
+    processAllIcons(icons) {
+        for (const size of Object.keys(icons)) {
+            icons[size] = this.processSingleDependency(icons[size])
+        }
+    }
+
     processIcons(nodeName) {
         if (nodeName !== 'icons') {
             return
         }
 
         const icons = this.ast[nodeName]
-        for (const size of Object.keys(icons)) {
-            icons[size] = this.processSingleDependency(icons[size])
-            this.isAstDirty = true
-        }
+
+        this.processAllIcons(icons)
+
+        this.isAstDirty = true
     }
 
     collectDependenciesForWebExtension() {

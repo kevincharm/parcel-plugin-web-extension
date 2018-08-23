@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "parcel-web-extension-test",
+    "version": "1.0.0",
+    "icons": {
+        "64": "favicon-64.ico"
+    },
+    "browser_action": {
+        "default_icon": {
+            "32": "favicon-32.ico",
+            "64": "favicon-64.ico"
+        }
+    },
+    "page_action": {
+        "default_icon": "favicon-16.ico"
+    }
+}

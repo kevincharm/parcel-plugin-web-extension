@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "fast-glob": "^2.2.2",
-    "parcel-bundler": "^1.9.0"
+    "parcel-bundler": "^1.9.0",
+    "upath": "^1.1.0"
   }
 }

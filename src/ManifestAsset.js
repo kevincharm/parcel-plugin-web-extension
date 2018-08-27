@@ -1,4 +1,5 @@
 const path = require('path')
+const upath = require('upath')
 const glob = require('fast-glob')
 const Asset = require('parcel-bundler/src/Asset')
 const JSONAsset = require('parcel-bundler/src/assets/JSONAsset')
@@ -31,6 +32,14 @@ class ManifestAsset extends Asset {
             icons: this.processIcons,
             options_ui: this.processOptionsUi,
             options_page: this.processOptionsPage
+        }
+
+        const _replaceBundleNames = this.replaceBundleNames
+        this.replaceBundleNames = bundleNameMap => {
+            for (const [name, map] of bundleNameMap) {
+                bundleNameMap[name] = upath.toUnix(map)
+            }
+            _replaceBundleNames.call(this, bundleNameMap)
         }
     }
 

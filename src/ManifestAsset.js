@@ -209,6 +209,7 @@ class ManifestAsset extends Asset {
         for (const size of Object.keys(icons)) {
             icons[size] = this.processSingleDependency(icons[size])
         }
+        return icons
     }
 
     processIcons() {

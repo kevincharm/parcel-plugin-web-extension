@@ -35,6 +35,9 @@ Assets resolved by this plugin:
 - `page_action.default_icon`
 - `icons`
 - `web_accessible_resources`
+- `chrome_url_overrides.bookmarks`
+- `chrome_url_overrides.newtab`
+- `chrome_url_overrides.history`
 
 ### Environments
 

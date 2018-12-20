@@ -30,7 +30,8 @@ class ManifestAsset extends Asset {
             page_action: this.processPageAction,
             icons: this.processIcons,
             options_ui: this.processOptionsUi,
-            options_page: this.processOptionsPage
+            options_page: this.processOptionsPage,
+            chrome_url_overrides: this.processURLOverrides
         }
     }
 
@@ -109,6 +110,25 @@ class ManifestAsset extends Asset {
         }
         if (background.page) {
             background.page = this.processSingleDependency(background.page)
+        }
+    }
+
+    processURLOverrides() {
+        const urlOverrides = this.ast.chrome_url_overrides
+        if (urlOverrides.bookmarks) {
+            urlOverrides.bookmarks = this.processSingleDependency(
+                urlOverrides.bookmarks
+            )
+        }
+        if (urlOverrides.newtab) {
+            urlOverrides.newtab = this.processSingleDependency(
+                urlOverrides.newtab
+            )
+        }
+        if (urlOverrides.history) {
+            urlOverrides.history = this.processSingleDependency(
+                urlOverrides.history
+            )
         }
     }
 

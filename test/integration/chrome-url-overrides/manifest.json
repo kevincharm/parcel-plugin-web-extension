@@ -1,0 +1,10 @@
+{
+    "manifest_version": 2,
+    "name": "parcel-web-extension-test",
+    "version": "1.0.0",
+    "chrome_url_overrides": {
+        "bookmarks": "bookmarks.html",
+        "newtab": "newtab.html",
+        "history": "history.html"
+    }
+}

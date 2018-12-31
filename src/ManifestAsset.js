@@ -2,7 +2,7 @@ const path = require('path')
 const glob = require('fast-glob')
 const Asset = require('parcel-bundler/src/Asset')
 const JSONAsset = require('parcel-bundler/src/assets/JSONAsset')
-const fs = require('parcel-bundler/src/utils/fs')
+const fs = require('@parcel/fs')
 
 /**
  * A shared asset that handles:

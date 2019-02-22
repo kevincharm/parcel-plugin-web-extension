@@ -213,7 +213,7 @@ class ManifestAsset extends Asset {
         // Chrome
         const optionsPage = this.ast.options_page
         if (typeof optionsPage === 'string') {
-            this.ast.options_page = this.processSingleDependency(options)
+            this.ast.options_page = this.processSingleDependency(optionsPage)
         }
     }
 

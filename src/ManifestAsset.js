@@ -37,7 +37,7 @@ class ManifestAsset extends Asset {
         const _replaceBundleNames = this.replaceBundleNames
         this.replaceBundleNames = bundleNameMap => {
             for (const [name, map] of bundleNameMap) {
-                bundleNameMap[name] = upath.toUnix(map)
+                bundleNameMap.set(name, upath.toUnix(map))
             }
             _replaceBundleNames.call(this, bundleNameMap)
         }

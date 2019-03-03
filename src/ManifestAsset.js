@@ -99,7 +99,7 @@ class ManifestAsset extends Asset {
     }
 
     processSingleDependency(path, opts) {
-        opts = opts || { entry: true }
+        opts = opts || { entry: false }
         return this.addURLDependency(path, opts)
     }
 
@@ -154,7 +154,8 @@ class ManifestAsset extends Asset {
             .reduce((p, c) => p.concat(c), [])
 
         this.ast.web_accessible_resources = this.processMultipleDependencies(
-            resolvedPaths
+            resolvedPaths,
+            { entry: false }
         )
     }
 

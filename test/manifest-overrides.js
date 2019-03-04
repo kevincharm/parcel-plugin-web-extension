@@ -1,5 +1,9 @@
-const { bundlerWithPlugin, assertBundleTree } = require('./utils')
+const { bundlerWithPlugin, assertBundleTree, removeHash } = require('./utils')
 const assert = require('assert')
+
+function removeHashReviver(key, value) {
+    return typeof value === 'string' ? removeHash(value) : value
+}
 
 describe('Manifest overrides', () => {
     let nodeEnv
@@ -22,7 +26,11 @@ describe('Manifest overrides', () => {
             assets: ['manifest.json'],
             childBundles: [{ name: 'content_script.js' }]
         })
-        const finalManifest = JSON.parse(bundle.entryAsset.generated.json)
+
+        const finalManifest = JSON.parse(
+            bundle.entryAsset.generated.json,
+            removeHashReviver
+        )
         assert.deepStrictEqual(finalManifest, {
             manifest_version: 2,
             name: 'parcel-web-extension-test',
@@ -52,7 +60,10 @@ describe('Manifest overrides', () => {
             assets: ['manifest.json'],
             childBundles: [{ name: 'content_script.js' }]
         })
-        const finalManifest = JSON.parse(bundle.entryAsset.generated.json)
+        const finalManifest = JSON.parse(
+            bundle.entryAsset.generated.json,
+            removeHashReviver
+        )
         assert.deepStrictEqual(finalManifest, {
             manifest_version: 2,
             name: 'parcel-web-extension-test',

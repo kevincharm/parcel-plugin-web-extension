@@ -4,6 +4,11 @@ const assert = require('assert')
 const Bundler = require('parcel-bundler')
 const WebExtensionPlugin = require('../src/index')
 
+function removeHash(filename) {
+    let match = /^(.+)\.[0-9abcdef]{8}(\.[^\.]+)$/.exec(filename)
+    return match ? match[1] + match[2] : filename
+}
+
 async function bundlerWithPlugin(file, opts) {
     const b = new Bundler(
         file,
@@ -14,7 +19,8 @@ async function bundlerWithPlugin(file, opts) {
                 cache: false,
                 killWorkers: false,
                 hmr: false,
-                logLevel: 0
+                logLevel: 0,
+                contentHash: false
             },
             opts
         )
@@ -26,7 +32,7 @@ async function bundlerWithPlugin(file, opts) {
 async function assertBundleTree(bundle, tree) {
     if (tree.name) {
         assert.equal(
-            path.basename(bundle.name),
+            removeHash(path.basename(bundle.name)),
             tree.name,
             'bundle names mismatched'
         )
@@ -51,12 +57,11 @@ async function assertBundleTree(bundle, tree) {
 
     let childBundles = Array.isArray(tree) ? tree : tree.childBundles
     if (childBundles) {
-        let children = Array.from(bundle.childBundles).sort(
-            (a, b) =>
-                Array.from(a.assets).sort()[0].basename <
-                Array.from(b.assets).sort()[0].basename
-                    ? -1
-                    : 1
+        let children = Array.from(bundle.childBundles).sort((a, b) =>
+            Array.from(a.assets).sort()[0].basename <
+            Array.from(b.assets).sort()[0].basename
+                ? -1
+                : 1
         )
         assert.equal(
             bundle.childBundles.size,
@@ -78,5 +83,6 @@ async function assertBundleTree(bundle, tree) {
 
 module.exports = {
     bundlerWithPlugin,
-    assertBundleTree
+    assertBundleTree,
+    removeHash
 }

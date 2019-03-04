@@ -1,6 +1,6 @@
 {
   "name": "parcel-plugin-web-extension",
-  "version": "1.4.0",
+  "version": "1.5.1",
   "description": "Parcel plugin for WebExtension projects",
   "main": "src/index.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
+    "@parcel/fs": "^1.11.0",
     "fast-glob": "^2.2.2",
     "parcel-bundler": "^1.9.0",
     "upath": "^1.1.0"

@@ -3,7 +3,7 @@ const upath = require('upath')
 const glob = require('fast-glob')
 const Asset = require('parcel-bundler/src/Asset')
 const JSONAsset = require('parcel-bundler/src/assets/JSONAsset')
-const fs = require('parcel-bundler/src/utils/fs')
+const fs = require('@parcel/fs')
 
 /**
  * A shared asset that handles:
@@ -31,7 +31,8 @@ class ManifestAsset extends Asset {
             page_action: this.processPageAction,
             icons: this.processIcons,
             options_ui: this.processOptionsUi,
-            options_page: this.processOptionsPage
+            options_page: this.processOptionsPage,
+            chrome_url_overrides: this.processURLOverrides
         }
 
         const _replaceBundleNames = this.replaceBundleNames
@@ -121,6 +122,25 @@ class ManifestAsset extends Asset {
         }
     }
 
+    processURLOverrides() {
+        const urlOverrides = this.ast.chrome_url_overrides
+        if (urlOverrides.bookmarks) {
+            urlOverrides.bookmarks = this.processSingleDependency(
+                urlOverrides.bookmarks
+            )
+        }
+        if (urlOverrides.newtab) {
+            urlOverrides.newtab = this.processSingleDependency(
+                urlOverrides.newtab
+            )
+        }
+        if (urlOverrides.history) {
+            urlOverrides.history = this.processSingleDependency(
+                urlOverrides.history
+            )
+        }
+    }
+
     processContentScripts() {
         const contentScripts = this.ast.content_scripts
         if (!Array.isArray(contentScripts)) {
@@ -203,7 +223,7 @@ class ManifestAsset extends Asset {
         // Chrome
         const optionsPage = this.ast.options_page
         if (typeof optionsPage === 'string') {
-            this.ast.options_page = this.processSingleDependency(options)
+            this.ast.options_page = this.processSingleDependency(optionsPage)
         }
     }
 
@@ -219,6 +239,7 @@ class ManifestAsset extends Asset {
         for (const size of Object.keys(icons)) {
             icons[size] = this.processSingleDependency(icons[size])
         }
+        return icons
     }
 
     processIcons() {

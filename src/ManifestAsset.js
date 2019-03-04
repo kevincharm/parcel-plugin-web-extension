@@ -175,7 +175,7 @@ class ManifestAsset extends Asset {
 
         this.ast.web_accessible_resources = this.processMultipleDependencies(
             resolvedPaths,
-            { entry: false }
+            { entry: true }
         )
     }
 

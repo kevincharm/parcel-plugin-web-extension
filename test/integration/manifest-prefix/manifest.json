@@ -1,0 +1,29 @@
+{
+    "manifest_version": 2,
+    "name": "parcel-web-extension-test",
+    "version": "1.0.0",
+    "permissions": [],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content_script.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "options_ui": {
+        "firefox|browser_style": true,
+        "chrome|chrome_style": true,
+        "open_in_tab": false
+    },
+    "chrome|minimum_chrome_version": "72.0",
+    "firefox|browser_specific_settings": {
+        "gecko": {
+            "id": "test@addon.com",
+            "strict_min_version": "63.0"
+        }
+    }
+}

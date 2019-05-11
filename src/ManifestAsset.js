@@ -1,4 +1,5 @@
 const path = require('path')
+const upath = require('upath')
 const glob = require('fast-glob')
 const Asset = require('parcel-bundler/src/Asset')
 const JSONAsset = require('parcel-bundler/src/assets/JSONAsset')
@@ -32,6 +33,31 @@ class ManifestAsset extends Asset {
             options_ui: this.processOptionsUi,
             options_page: this.processOptionsPage,
             chrome_url_overrides: this.processURLOverrides
+        }
+
+        this.replaceBundleNames = bundleNameMap => {
+            // copied from https://github.com/parcel-bundler/parcel/blob/master/packages/core/parcel-bundler/src/Asset.js#L253
+            let copied = false
+            for (let key in this.generated) {
+                let value = this.generated[key]
+                if (typeof value === 'string') {
+                    // Replace temporary bundle names in the output with the final content-hashed names.
+                    let newValue = value
+                    for (let [name, map] of bundleNameMap) {
+                        // replace windows paths with POSIX ones
+                        map = upath.toUnix(map)
+                        newValue = newValue.split(name).join(map)
+                    }
+
+                    // Copy `this.generated` on write so we don't end up writing the final names to the cache.
+                    if (newValue !== value && !copied) {
+                        this.generated = Object.assign({}, this.generated)
+                        copied = true
+                    }
+
+                    this.generated[key] = newValue
+                }
+            }
         }
     }
 

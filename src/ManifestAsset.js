@@ -1,5 +1,4 @@
 const path = require('path')
-const upath = require('upath')
 const glob = require('fast-glob')
 const Asset = require('parcel-bundler/src/Asset')
 const JSONAsset = require('parcel-bundler/src/assets/JSONAsset')
@@ -34,14 +33,12 @@ class ManifestAsset extends Asset {
             options_page: this.processOptionsPage,
             chrome_url_overrides: this.processURLOverrides
         }
-
-        const _replaceBundleNames = this.replaceBundleNames
-        this.replaceBundleNames = bundleNameMap => {
-            for (const [name, map] of bundleNameMap) {
-                bundleNameMap.set(name, upath.toUnix(map))
-            }
-            _replaceBundleNames.call(this, bundleNameMap)
+    }
+    replaceBundleNames(bundleNameMap) {
+        for (const [name, map] of bundleNameMap) {
+            bundleNameMap.set(name, path.posix.join(...map.split(path.sep)))
         }
+        return super.replaceBundleNames(bundleNameMap)
     }
 
     static determineKind(name) {

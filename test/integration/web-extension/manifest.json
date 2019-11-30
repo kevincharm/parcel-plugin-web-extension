@@ -33,6 +33,10 @@
     "options_ui": {
         "page": "options.html"
     },
+    "sidebar_action": {
+        "default_icon": "favicon.ico",
+        "default_panel": "sidebar.html"
+    },
     "web_accessible_resources": [
         "inject.js"
     ]

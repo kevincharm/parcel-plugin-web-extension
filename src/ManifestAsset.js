@@ -4,6 +4,7 @@ const glob = require('fast-glob')
 const Asset = require('parcel-bundler/src/Asset')
 const JSONAsset = require('parcel-bundler/src/assets/JSONAsset')
 const fs = require('@parcel/fs')
+const applyBrowserPrefixesFor = require('./applyBrowserPrefixesFor')
 
 /**
  * A shared asset that handles:
@@ -94,6 +95,10 @@ class ManifestAsset extends Asset {
         const manifestDir = path.dirname(name)
         const rawBaseManifest = await fs.readFile(name, encoding)
         const baseManifest = JSON.parse(rawBaseManifest)
+        const vendor = process.env.VENDOR || 'chrome'
+
+        // Apply browser prefix
+        applyBrowserPrefixesFor(vendor)(baseManifest)
 
         // Merge overrides
         if (typeof process.env.NODE_ENV === 'string') {

@@ -47,6 +47,32 @@ NODE_ENV=development parcel src/manifest.json
 ```
 and the plugin will also look for `manifest.development.json` and merge those keys into the base manifest.
 
+### Manifest prefix
+
+Converts and removes keys with a prefix to the key without prefix.
+For example, you can run:
+```sh
+VENDOR=chrome parcel src/manifest.json
+
+Input:
+{
+    "options_ui": {
+        "firefox|browser_style": true,
+        "chrome|chrome_style": true,
+        "open_in_tab": false
+    }
+}
+
+Result:
+{
+    "options_ui": {
+        "chrome_style": true,
+        "open_in_tab": false
+    }
+}
+
+```
+
 ## Licence
 
 Apache 2.0

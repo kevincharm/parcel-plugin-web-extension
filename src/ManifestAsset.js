@@ -32,7 +32,8 @@ class ManifestAsset extends Asset {
             icons: this.processIcons,
             options_ui: this.processOptionsUi,
             options_page: this.processOptionsPage,
-            chrome_url_overrides: this.processURLOverrides
+            chrome_url_overrides: this.processURLOverrides,
+            devtools_page: this.processDevtoolsPage,
         }
 
         this.replaceBundleNames = bundleNameMap => {
@@ -261,6 +262,10 @@ class ManifestAsset extends Asset {
     processIcons() {
         const icons = this.ast.icons
         this.processAllIcons(icons)
+    }
+
+    processDevtoolsPage() {
+        this.ast.devtools_page = this.processSingleDependency(this.ast.devtools_page)
     }
 
     collectDependenciesForWebExtension() {

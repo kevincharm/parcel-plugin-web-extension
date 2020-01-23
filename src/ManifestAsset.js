@@ -117,7 +117,11 @@ class ManifestAsset extends Asset {
     }
 
     processSingleDependency(path, opts) {
-        opts = opts || { entry: true }
+        if (process.env.PARCEL_PLUGIN_WEB_EXTENSION_UNIT_TESTS === 'running') {
+            opts = opts || { entry: true }
+        } else {
+            opts = opts || {}
+        }
         return this.addURLDependency(path, opts)
     }
 

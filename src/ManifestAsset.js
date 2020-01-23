@@ -294,7 +294,7 @@ class ManifestAsset extends Asset {
     }
 
     hasWebExtensionManifestKeys() {
-        const requiredKeys = ['manifest_version', 'name', 'version']
+        const requiredKeys = ['manifest_version', 'name']
         return requiredKeys.every(key => !!this.ast[key])
     }
 
@@ -308,6 +308,12 @@ class ManifestAsset extends Asset {
             this.type = 'webmanifest'
             this.collectDependenciesForPwa()
             return
+        }
+    }
+
+    transform() {
+        if (this.kind === 'webext-manifest' && this.ast.version === undefined) {
+            this.ast.version = require(path.resolve(process.env.INIT_CWD, 'package.json')).version
         }
     }
 

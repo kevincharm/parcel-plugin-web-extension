@@ -33,6 +33,8 @@ Assets resolved by this plugin:
 - `browser_action.default_icon`
 - `page_action.default_popup`
 - `page_action.default_icon`
+- `sidebar_action.default_panel`
+- `sidebar_action.default_icon`
 - `icons`
 - `web_accessible_resources`
 - `chrome_url_overrides.bookmarks`

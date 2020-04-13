@@ -29,6 +29,7 @@ class ManifestAsset extends Asset {
             web_accessible_resources: this.processWebAccessibleResources,
             browser_action: this.processBrowserAction,
             page_action: this.processPageAction,
+            sidebar_action: this.processSidebarAction,
             icons: this.processIcons,
             options_ui: this.processOptionsUi,
             options_page: this.processOptionsPage,
@@ -224,6 +225,26 @@ class ManifestAsset extends Asset {
         if (action.default_popup) {
             action.default_popup = this.processSingleDependency(
                 action.default_popup
+            )
+        }
+        const defaultIcon = action.default_icon
+        if (defaultIcon) {
+            action.default_icon =
+                typeof defaultIcon === 'string'
+                    ? this.processSingleDependency(defaultIcon)
+                    : this.processAllIcons(defaultIcon)
+        }
+    }
+
+    processSidebarAction() {
+        const action = this.ast.sidebar_action
+        if (!action) {
+            return
+        }
+
+        if (action.default_panel) {
+            action.default_panel = this.processSingleDependency(
+                action.default_panel
             )
         }
         const defaultIcon = action.default_icon

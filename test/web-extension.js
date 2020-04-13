@@ -19,7 +19,8 @@ describe('WebExtension', () => {
                 { name: 'favicon.ico' },
                 { name: 'inject.js' },
                 { name: 'options.html' },
-                { name: 'popup.html' }
+                { name: 'popup.html' },
+                { name: 'sidebar.html' }
             ]
         })
 

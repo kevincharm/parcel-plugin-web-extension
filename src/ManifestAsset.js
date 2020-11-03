@@ -213,6 +213,11 @@ class ManifestAsset extends Asset {
                     ? this.processSingleDependency(defaultIcon)
                     : this.processAllIcons(defaultIcon)
         }
+
+        const themeIcons = action.theme_icons;
+        if (themeIcons) {
+            action.theme_icons = themeIcons.map(this.processThemeIcon.bind(this))
+        }
     }
 
     processPageAction() {
@@ -261,6 +266,14 @@ class ManifestAsset extends Asset {
     processIcons() {
         const icons = this.ast.icons
         this.processAllIcons(icons)
+    }
+
+    processThemeIcon(iconSet) {
+        const light = iconSet.light;
+        if (light) iconSet.light = this.processSingleDependency(light);
+ 
+        const dark = iconSet.dark;
+        if (dark) iconSet.dark = this.processSingleDependency(dark);
     }
 
     collectDependenciesForWebExtension() {

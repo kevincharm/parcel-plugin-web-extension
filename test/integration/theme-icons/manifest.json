@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "parcel-web-extension-test",
+    "version": "1.0.0",
+
+    "browser_action": {
+        "theme_icons": [
+            {
+                "light": "favicon-light-16.ico",
+                "dark": "favicon-dark-16.ico",
+                "size": 16
+            },
+            {
+                "light": "favicon-light-32.ico",
+                "dark": "favicon-dark-32.ico",
+                "size": 32
+            }
+        ]
+    }
+}

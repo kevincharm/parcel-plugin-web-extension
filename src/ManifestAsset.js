@@ -274,6 +274,8 @@ class ManifestAsset extends Asset {
  
         const dark = iconSet.dark;
         if (dark) iconSet.dark = this.processSingleDependency(dark);
+
+        return iconSet;
     }
 
     collectDependenciesForWebExtension() {

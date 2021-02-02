@@ -2,7 +2,9 @@
 
 # parcel-plugin-web-extension
 
-This [parcel](https://github.com/parcel-bundler/parcel) plugin enables you to use a WebExtension `manifest.json` as an entry point. For more information about `manifest.json`, please refer to the [MDN docs](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json).
+This [parcel 1](https://github.com/parcel-bundler/parcel) plugin enables you to use a WebExtension `manifest.json` as an entry point. For more information about `manifest.json`, please refer to the [MDN docs](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json).
+
+If you use parcel 2, use its own [Web Extension Transformer](https://v2.parceljs.org/recipes/web-extension/).
 
 ## Installation
 
